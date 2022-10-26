@@ -1,0 +1,23 @@
+<html>
+    <head>
+        <title>Malicious page</title>
+        <script>
+            fetch('http://localhost:8000')
+                .then(resp => resp.text())
+                .then(resp => {
+                    console.log(resp);
+                    document.getElementById('content').innerHTML = resp;
+                });
+        </script>
+    </head>
+    <body>
+        <p>Trying to embed the home page from App 1 in an iframe</p>
+        <iframe src="http://localhost:3000"></iframe>
+        <p>Requesting the iframe from App 1 without token</p>
+        <iframe src="http://localhost:3000/iframe"></iframe>
+        <p>Requesting the iframe from App 1 with a stolen (expired) token</p>
+        <iframe src="http://localhost:3000/iframe?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZWZlcmVyIjoiaHR0cDovL2xvY2FsaG9zdDo4MDAwLyIsImlhdCI6MTY2Njc5MjQyNywiZXhwIjoxNjY2NzkyNDU3fQ.wj7hdLMoBYHJOhTCiDoGrzgYrQfESVgfMmi0xePX4UQ"></iframe>
+        <p>Trying to steal the iframe with the token from App 2 (you will see the result rendered on top as it pulls in the style from that page)</p>
+        <div id="content"></div>
+    </body>
+</html>

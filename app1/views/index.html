@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>App 1 Home</title>
+        <style>
+            html, body {
+                background-color: #b1d4fd;
+            }
+
+            #loggedIn {
+                display: none;
+            }
+
+            #loggedOut {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>This page is served on App 1</h1>
+        <div id="loggedIn">
+            <img id="avatar" src="" />
+            <p>You are currently logged in as <span id="username"></span>.</p>
+            <a href="/logout">Log out</a>
+        </div>
+        <div id="loggedOut">
+            <p>You are currently logged out.</p>
+            <a href="/login">Log in</a>
+        </div>
+        <script>
+            fetch('/getUserInfo')
+                .then(resp => resp.json())
+                .then(({ username, avatar }) => {
+                    document.getElementById('username').innerHTML = username;
+                    document.getElementById('avatar').src = avatar;
+                    document.getElementById('loggedIn').style.display = 'block';
+                })
+                .catch((err) => {
+                    // Assume the user is logged out
+                    document.getElementById('loggedOut').style.display = 'block';
+                });
+        </script>
+    </body>
+</html>
